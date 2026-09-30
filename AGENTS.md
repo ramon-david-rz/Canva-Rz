@@ -7,7 +7,7 @@ El usuario construye junto al agente. Esta carpeta contiene el desarrollo nuevo;
 - Leer `docs/Estado.md` y el tramo activo de `docs/Plan.md`; consultar solo la ficha del módulo afectado y los contratos necesarios.
 - Entregar un avance concreto por tramo, con lo construido, evidencia, límites y siguiente paso. No ejecutar toda la hoja de ruta de una vez: la guía del usuario forma parte de la construcción.
 - No convertir el plan anterior en una especificación aprobada. Conservar requisitos; registrar diferencias y propuestas.
-- Trabajar dentro de esta carpeta. Consultar las aplicaciones de referencia por control concreto cuando llegue su módulo.
+- Mantener el código dentro de esta carpeta. El piloto autorizado guarda contenido en `../Proyectos/Piloto-RZ/Episodio-01/`, fuera de Git. Consultar referencias por control concreto.
 - Un checkpoint Git local por entrega comprobada. Publicar solo contra un remoto verificado y autorizado; nunca adivinar repositorio ni incluir las aplicaciones de referencia, modelos, credenciales o medios personales.
 
 ## Diseño y arquitectura
@@ -15,7 +15,7 @@ El usuario construye junto al agente. Esta carpeta contiene el desarrollo nuevo;
 - Todos los módulos pasan por el registro y las operaciones del núcleo. No importar implementaciones de un módulo desde otro.
 - Separar identidad del contenido, identidad de la vista y ubicación del panel. Cerrar o minimizar una vista nunca elimina contenido.
 - Lógica pura en `src/core`; adaptadores en `src/adapters`; marco en `src/shell`; módulos en `src/modules`; tokens y primitivas en `src/design`.
-- Colores, radios, espaciados, interacción y movimiento usan tokens. El motor de paneles recibe los mismos roles semánticos.
+- La cinta de pestañas es común: no repetirla dentro de los paneles. No añadir textos decorativos, explicaciones futuras ni metadatos sin utilidad operativa. Colores, radios, espaciados, interacción y movimiento usan tokens. El motor de paneles recibe los mismos roles semánticos.
 - Acciones con nombre accesible, foco visible y alternativa a arrastrar. PC y táctil comparten operaciones; su presentación puede variar.
 - Guardado solo se confirma después de una escritura satisfactoria. La recuperación del navegador no equivale al guardado en una carpeta de proyecto.
 - No incorporar proveedores, dependencias de GPU ni generación en una entrega del marco. Las extensiones hijas y adaptadores se conectan según el tramo.

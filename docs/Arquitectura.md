@@ -12,14 +12,14 @@ La orquestación de construcción vive en Plan, Estado, fichas y reportes: decid
 | Vista | Pertenece a un módulo, referencia contenido y guarda navegación propia | `ViewRecord`; estado abierto/minimizado/cerrado y filtro |
 | Distribución | Decide dónde se muestra una vista; no contiene el documento real | Dockview detrás de `shell/App.tsx` |
 | Núcleo | Modifica entidades mediante operaciones comunes | `core/workspace.ts`; sin dependencia de React ni Dockview |
-| Persistencia | Guarda y recupera mediante un puerto; confirma después de escribir | `SessionStoragePort` y adaptador de navegador |
+| Persistencia | Guarda y recupera mediante un puerto; confirma después de escribir | `SessionStoragePort`, recuperación de navegador y adaptador del piloto local |
 | Diseño | Una fuente para roles, tamaños, foco y estados | `design/tokens.css` y primitivas compartidas |
 | Módulos | Reciben anfitrión y vista; no importan herramientas hermanas | Registro con ID, versión, icono, título y componente |
 | Extensiones hijas | Reciben destino estable y parámetros; cambian su revisión mediante comandos | Contrato proyectado; color/IA/máscaras no implementados aún |
 
-Dos vistas de un documento referencian un `contentId`. Dos documentos nuevos obtienen identidades distintas. Una biblioteca puede tener filtros distintos por `viewId` y consultar un catálogo común. Cerrar no elimina contenido; minimizar conserva además un acceso rápido inferior. Los borradores persisten durante la edición, no solo al salir.
+Dos vistas de un documento referencian un `contentId`. Dos documentos nuevos obtienen identidades distintas. Una biblioteca puede tener filtros distintos por `viewId` y consultar un catálogo común. Cerrar no elimina contenido; minimizar conserva el acceso desde la cinta global. Los borradores persisten durante la edición, no solo al salir. La vista interna `start` ofrece herramientas y reapertura; no se proyecta como documento en Actual.
 
-El chat activo es una selección explícita independiente de la pestaña con foco. La burbuja usa ese chat y su mismo borrador. Al enfocar un lienzo, el anfitrión actualiza el vínculo del chat activo; el botón de vínculo ofrece una acción explícita. En la futura generación se congelará el destino y la revisión al enviar; cambiar de pestaña después no cambiará un trabajo en curso.
+El chat activo es una selección explícita independiente de la pestaña con foco. La burbuja usa ese chat y su mismo borrador. Al enfocar un lienzo, el anfitrión actualiza el vínculo del chat activo. En la futura generación se congelará el destino y la revisión al enviar; cambiar de pestaña después no cambiará un trabajo en curso.
 
 ## Contratos que deben permanecer
 
@@ -32,7 +32,7 @@ Job: jobId + entradas congeladas + prompt exacto + proveedor + destino + estado
 Result: recursos nuevos + procedencia + dimensiones reales + revisión de entrada
 ```
 
-Los últimos cuatro contratos son diseño pendiente de implementación. El formato actual guarda `schema: 1` y las identidades iniciales. No contiene medios ni claves API. Antes de añadir archivos se definirá y probará una migración, validación y política de revisiones.
+Los últimos cuatro contratos son diseño pendiente de implementación. El formato actual guarda `schema: 1` y las identidades iniciales. No contiene medios ni claves API. El piloto valida el estado y usa una revisión de manifiesto independiente; los futuros contratos de recursos requieren su propia migración y política de revisiones.
 
 ## Plugin y autonomía
 
@@ -42,9 +42,9 @@ Una extensión hija de ajustes recibe la instancia seleccionada y su revisión. 
 
 No se promete instalar plugins de terceros con código arbitrario: esa capacidad requiere permisos, validación y aislamiento que se diseñarán si se pide. El objetivo actual es poder añadir y quitar herramientas propias sin reconstruir la base.
 
-## Tecnologías elegidas en el paso 1
+## Tecnologías actuales
 
-React 19.3.0, TypeScript 7.0.2 y Vite 8.3.1. Dockview React 8.3.1 aloja pestañas/grupos y serializa distribución; Lucide React 1.49.0 unifica iconos. Dependencias fijadas y `package-lock.json`. Playwright 1.63.0 prueba flujos con Edge/Chromium local. Node disponible: 24.19.0; npm: 11.17.0. No se instalaron modelos ni un backend de procesamiento.
+React 19.3.0, TypeScript 7.0.2 y Vite 8.3.1. Dockview React 8.3.1 distribuye grupos y serializa distribución; el anfitrión presenta una sola cinta y oculta los encabezados internos mediante la API pública. Lucide React 1.49.0 unifica iconos. Radix Dropdown Menu 2.1.24 y Popover 1.1.23 resuelven foco, teclado y posicionamiento con estilos propios. Dependencias fijadas y `package-lock.json`. Playwright 1.63.0 prueba flujos con Edge/Chromium local. Node disponible: 24.19.0; npm: 11.17.0. No se instalaron modelos ni un backend de procesamiento.
 
 Dockview se eligió por una necesidad presente: mover/dividir/agrupar/restaurar vistas. Su documentación incluye [paneles](https://dockview.dev/docs/core/panels/add/), [movimiento](https://dockview.dev/docs/core/panels/move/) y [serialización](https://dockview.dev/docs/core/state/save/). La elección sigue condicionada a la prueba de la experiencia real, especialmente táctil. [Vite](https://vite.dev/guide/) sirve desarrollo y compilación; no convierte el repo en un servicio remoto.
 
@@ -52,9 +52,11 @@ Python/FastAPI, SQLite, ComfyUI, FFmpeg, CodeMirror, motor 2D y MCP son opciones
 
 ## Persistencia y traslado
 
-Esta entrega guarda la sesión en localStorage del origen del navegador. Incluye borradores, filtros, preferencias, vínculos y distribución. No es una carpeta compartida, un respaldo remoto ni un formato final de proyecto. Una limpieza del navegador puede eliminarla. Un fallo de escritura aparece como cambios sin guardar.
+`src/adapters/local-project.ts` prepara el piloto y conserva la recuperación inmediata mediante el adaptador de navegador. Cada ventana conserva además su propio borrador pendiente en sessionStorage. El estado de guardado en disco se publica por separado y solo se confirma después de una respuesta satisfactoria.
 
-En el paso 3, el adaptador durable guardará proyectos y medios fuera del código de la aplicación. Se usan identificadores y rutas relativas para material gestionado, ubicaciones explícitas para vínculos externos, revisiones esperadas y escrituras recuperables. El índice será reconstruible; el medio y su procedencia seguirán accesibles desde otros programas. La serialización del motor gráfico nunca sustituirá al documento propio.
+`server/pilot.ts` sirve un endpoint local desde Vite y preview para `../Proyectos/Piloto-RZ/Episodio-01/`. Valida identidades, restringe la ubicación, serializa escrituras, sustituye archivos mediante temporales y escribe el manifiesto al final con copia del anterior. Actual contiene registros JSON y el espejo Markdown de documentos/chats; Medios queda preparado. Las revisiones y el estado base por ventana permiten combinar cambios distintos y rechazar ediciones concurrentes que compiten por el mismo contenido.
+
+El piloto no observa ni reimporta modificaciones externas, ni permite seleccionar carpetas o gestionar varios proyectos. Esas capacidades y la importación de medios pertenecen al paso 3. Se usarán rutas relativas para recursos gestionados y ubicaciones explícitas para vínculos externos. La serialización del motor gráfico nunca sustituirá al documento propio. Una web servida sin este adaptador conserva solo la recuperación de navegador.
 
 ## Diseño y gestos
 

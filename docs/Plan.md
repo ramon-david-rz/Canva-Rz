@@ -13,11 +13,11 @@ La analogía de la ciudad se traduce en servicios comunes y puntos de extensión
 ```text
 Canva-RZ/
   docs/                   Plan, estado, decisiones, contratos, requisitos y reportes
-    fuentes/              Copias exactas de las dos notas y sus hashes
+    fuentes/              Copias exactas de las notas y feedback, con sus hashes
     modulos/              Una ficha por frente de construcción
   src/
     core/                 Identidades, contenido, vistas y operaciones comunes
-    adapters/             Recuperación del navegador; después archivos y proveedores
+    adapters/             Recuperación del navegador y piloto local; después proveedores
     design/               Tokens y controles compartidos
     shell/                Marco, distribución, navegación y burbuja
     modules/              Registro y módulos independientes
@@ -25,6 +25,8 @@ Canva-RZ/
       chat/
       library/
       document/
+      start/              Selector interno de herramientas y reapertura
+  server/                 Adaptador local del piloto para desarrollo y preview
   tests/                  Recuperación y operaciones del anfitrión
 ```
 
@@ -62,3 +64,7 @@ Los pasos 7 y 9 pueden alternarse según la utilidad que veas. Varias mesas, ví
 ## Trabajo conjunto
 
 Cada entrega termina con: lo que puedes probar, lo que falló o queda sin verificar, checkpoint local y siguiente tramo recomendado. Tu feedback cambia la siguiente entrega. No fijar tiempos de presión, gestos o estética avanzada como definitivos antes de usarlos contigo.
+
+## Tramo 2 completado
+
+La entrega [002](reportes/002-mesa.md) aplica la nueva guía del usuario: pestañas globales discretas, + como selector y reapertura, laterales reversibles, menos márgenes y textos, contraste oscuro ampliado, menús accesibles y burbuja móvil. También inicia un piloto durable con Actual/Medios fuera del código. El paso 3 continúa pendiente para elegir carpetas, importar/observar archivos y ampliar el formato; no confundir el adaptador pequeño del piloto con esa capacidad completa.

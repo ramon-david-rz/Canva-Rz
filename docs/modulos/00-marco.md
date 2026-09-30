@@ -1,11 +1,11 @@
 # Marco anfitrión
 
-Propósito: alojar herramientas como vistas temporales, independientes y combinables. Fuente principal: nota 1 completa. A01–A22 son la cobertura de base.
+Propósito: alojar herramientas independientes y combinables, con contenido separado de sus vistas. Dirección: notas originales ratificadas y feedback de interfaz de la entrega 002.
 
-**Requisitos conservados.** Marco exterior y cuerpo interior redondeado; título, navegación y acciones generales discretas; paneles laterales plegables; pestañas como navegador; divisiones por línea arrastrable; abrir/cerrar/agrupar/mover/reducir/ampliar; una herramienta sola puede ocupar todo el área; varias instancias sin colisión; rutas/breadcrumb cuando corresponda; burbuja breve opcional; modalidades compacta y completa; estado de sesión separado de contenido; proyectos y biblioteca en directorio compartido; temas con intensidad/tono, presets y transparencia opcional.
+**Construido.** Una cinta global de pestañas en el encabezado, + con selector/reapertura, menús Archivo/Ver, historial de foco, divisiones sin cintas repetidas y acciones secundarias en tres puntos. Dos laterales de proyecto/archivos, plegables, redimensionables e intercambiables. Burbuja móvil compartida con el chat activo. Pantalla completa de mesa o panel y recuperación al salir. Temas/tokens y menús Radix accesibles.
 
-**Construido.** Marco web, navegador de borradores ocultable, cuatro módulos, distribución, controles de panel, menú de vistas, minimizados, temas y recuperación del navegador. Instancias nuevas crean contenido nuevo; «Otra vista» referencia el mismo contenido. Bibliotecas guardan filtro por vista.
+El selector `start` es una vista interna del anfitrión, registrada como los demás componentes; no aparece en el árbol de contenido ni genera un archivo en Actual. Elegir una herramienta transforma esa misma vista. Un documento nuevo crea contenido nuevo; otra vista referencia el existente.
 
-**Siguiente.** Ajustar la mesa con tu feedback; luego vincular proyecto/carpeta reales. Más pantallas, pestañas externas y transparencias nativas requieren otra etapa.
+**Persistencia.** Sesión inmediata del navegador más adaptador de disco para el piloto, fuera del repositorio. Cerrar o minimizar conserva contenido. Las revisiones evitan que cambios de interfaz reviertan texto editado desde otra ventana. iPad físico, importación general, catálogo de medios y selección de carpetas siguen pendientes.
 
-**Retos.** Separar cerrar de eliminar; conservar cambios al ocultar/desmontar; mover pestañas sin marcar contenido como borrado; no duplicar lógica para móvil; controlar tamaño mínimo y funciones descubribles. El arrastre de paneles en iPad físico sigue pendiente de prueba.
+**Continuar.** Afinar la experiencia a partir de la prueba del usuario; completar archivos/lienzo cuando lo indique. No reintroducir subtítulos, información futura ni pies decorativos dentro de la interfaz. Los nombres y explicaciones visibles deben servir a una acción concreta.

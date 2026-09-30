@@ -8,6 +8,11 @@ export interface HostServices {
   reopen(id: string): void;
   minimize(id: string): void;
   close(id: string): void;
+  choose(id: string, module: Exclude<ModuleId, 'start'>): void;
+  focus(id: string): void;
+  move(id: string, target: string, position: 'left' | 'right' | 'top' | 'bottom' | 'center'): void;
+  panelAction(id: string, action: 'maximize' | 'float' | 'group' | 'right' | 'bottom'): void;
+  fullscreen(id?: string): void;
 }
 
 export const HostContext = createContext<HostServices | null>(null);

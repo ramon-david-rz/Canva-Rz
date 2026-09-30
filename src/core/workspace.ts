@@ -21,11 +21,21 @@ export function createWorkspaceStore(storage: SessionStoragePort) {
       const n = Object.values(state.contents).filter(c => c.module === module).length + 1;
       const content = existing ?? {
         id: crypto.randomUUID(), module, title: `${moduleTitles[module]} ${n}`, revision: 0,
-        text: module === 'document' ? '# Una idea empieza aquí\n\nEste es un borrador de prueba. Puedes escribir, cerrar la pestaña y recuperarlo desde el navegador.\n' : '',
+        text: '',
       };
       const view = { id, module, contentId: content.id, title: content.title, status: 'open' as const, filter: '' };
       commit({ ...state, contents: { ...state.contents, [content.id]: content }, views: { ...state.views, [id]: view },
         activeChatId: state.activeChatId ?? (module === 'chat' ? content.id : null) });
+      return view;
+    },
+    choose(id: string, module: Exclude<ModuleId, 'start'>) {
+      const state = snapshot.state; const previous = state.views[id];
+      if (previous?.module !== 'start') throw new Error('La vista ya contiene un documento');
+      const n = Object.values(state.contents).filter(c => c.module === module).length + 1;
+      const content = { id: crypto.randomUUID(), module, title: `${moduleTitles[module]} ${n}`, revision: 0, text: '' };
+      const view = { ...previous, module, contentId: content.id, title: content.title };
+      const contents = { ...state.contents, [content.id]: content }; delete contents[previous.contentId];
+      commit({ ...state, contents, views: { ...state.views, [id]: view }, activeChatId: state.activeChatId ?? (module === 'chat' ? content.id : null) });
       return view;
     },
     setViewStatus(id: string, status: ViewStatus) {

@@ -1,0 +1,81 @@
+/* 1. Primitives; 2. semantic roles; 3. component mappings. */
+:root {
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px;
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-frame: 20px; --radius-round: 999px;
+  --font-ui: 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Cascadia Code', Consolas, monospace;
+  --font-sm: 11px; --font-base: 13px; --font-title: 21px;
+  --target: 32px; --motion-fast: 140ms;
+}
+.app {
+  --surface-app: hsl(var(--theme-hue) 10% calc(14% - var(--theme-strength) * 7%));
+  --surface-frame: hsl(var(--theme-hue) 9% calc(19% - var(--theme-strength) * 8%));
+  --surface-panel: hsl(var(--theme-hue) 8% calc(22% - var(--theme-strength) * 9%));
+  --surface-raised: hsl(var(--theme-hue) 8% calc(28% - var(--theme-strength) * 10%));
+  --surface-hover: hsl(var(--theme-hue) 8% calc(33% - var(--theme-strength) * 10%));
+  --surface-canvas: hsl(var(--theme-hue) 8% calc(18% - var(--theme-strength) * 8%));
+  --text-primary: hsl(var(--theme-hue) 9% 92%);
+  --text-secondary: hsl(var(--theme-hue) 9% 71%);
+  --text-muted: hsl(var(--theme-hue) 8% 57%);
+  --border-subtle: hsl(var(--theme-hue) 8% calc(35% - var(--theme-strength) * 9%));
+  --accent: hsl(var(--theme-hue) 55% 75%);
+  --accent-soft: hsl(var(--theme-hue) 19% 27%);
+  --danger: hsl(8 67% 74%);
+  --selection: hsl(var(--theme-hue) 40% 36%);
+  --focus: hsl(var(--theme-hue) 65% 76%);
+  --shadow-color: hsl(var(--theme-hue) 20% 3% / .4);
+  --checker-a: hsl(var(--theme-hue) 5% calc(29% - var(--theme-strength) * 9%));
+  --checker-b: hsl(var(--theme-hue) 5% calc(25% - var(--theme-strength) * 9%));
+  --guide: hsl(var(--theme-hue) 8% 36% / .5);
+  color-scheme: dark;
+}
+.app[data-theme='light'] {
+  --surface-app: hsl(var(--theme-hue) 12% calc(87% + var(--theme-strength) * 7%));
+  --surface-frame: hsl(var(--theme-hue) 13% calc(91% + var(--theme-strength) * 5%));
+  --surface-panel: hsl(var(--theme-hue) 12% calc(94% + var(--theme-strength) * 5%));
+  --surface-raised: hsl(var(--theme-hue) 10% calc(88% + var(--theme-strength) * 7%));
+  --surface-hover: hsl(var(--theme-hue) 13% calc(83% + var(--theme-strength) * 6%));
+  --surface-canvas: hsl(var(--theme-hue) 10% calc(89% + var(--theme-strength) * 6%));
+  --text-primary: hsl(var(--theme-hue) 16% 15%);
+  --text-secondary: hsl(var(--theme-hue) 12% 34%);
+  --text-muted: hsl(var(--theme-hue) 10% 43%);
+  --border-subtle: hsl(var(--theme-hue) 10% calc(75% + var(--theme-strength) * 8%));
+  --accent: hsl(var(--theme-hue) 44% 33%);
+  --accent-soft: hsl(var(--theme-hue) 28% 87%);
+  --danger: hsl(8 65% 38%);
+  --selection: hsl(var(--theme-hue) 45% 84%);
+  --focus: hsl(var(--theme-hue) 60% 38%);
+  --shadow-color: hsl(var(--theme-hue) 20% 25% / .14);
+  --checker-a: hsl(var(--theme-hue) 7% calc(85% + var(--theme-strength) * 7%));
+  --checker-b: hsl(var(--theme-hue) 7% calc(80% + var(--theme-strength) * 7%));
+  --guide: hsl(var(--theme-hue) 8% 60% / .45);
+  color-scheme: light;
+}
+.app[data-input='touch'] { --target: 44px; }
+@media (pointer: coarse) { .app[data-input='auto'] { --target: 44px; } }
+.dockview-theme-rz {
+  --dv-background-color: var(--surface-frame);
+  --dv-group-view-background-color: var(--surface-panel);
+  --dv-tabs-and-actions-container-background-color: var(--surface-panel);
+  --dv-activegroup-visiblepanel-tab-background-color: var(--surface-raised);
+  --dv-activegroup-hiddenpanel-tab-background-color: var(--surface-panel);
+  --dv-inactivegroup-visiblepanel-tab-background-color: var(--surface-raised);
+  --dv-inactivegroup-hiddenpanel-tab-background-color: var(--surface-panel);
+  --dv-activegroup-visiblepanel-tab-color: var(--text-primary);
+  --dv-activegroup-hiddenpanel-tab-color: var(--text-muted);
+  --dv-inactivegroup-visiblepanel-tab-color: var(--text-secondary);
+  --dv-inactivegroup-hiddenpanel-tab-color: var(--text-muted);
+  --dv-tab-divider-color: transparent;
+  --dv-separator-border: var(--border-subtle);
+  --dv-paneview-header-border-color: var(--border-subtle);
+  --dv-active-sash-color: var(--accent);
+  --dv-sash-color: transparent;
+  --dv-drag-over-background-color: var(--accent-soft);
+  --dv-drag-over-border-color: var(--accent);
+  --dv-floating-box-shadow: 0 8px 30px var(--shadow-color);
+  --dv-tabs-and-actions-container-height: calc(var(--target) + var(--space-2));
+  --dv-tabs-and-actions-container-font-size: var(--font-base);
+  --dv-border-radius: var(--radius-md);
+  --dv-tab-margin: 0;
+}
+@media (prefers-reduced-motion: reduce) { :root { --motion-fast: 0ms; } }
